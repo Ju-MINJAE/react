@@ -1,5 +1,7 @@
 import Expenses from './components/Expenses/Expenses';
 
+// function App() {}
+// const App = () => {}  'function을 이러한 식으로 작성하여 사용할 수 있음'
 function App() {
   const expenses = [
     {

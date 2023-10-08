@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import classes from './UserInput.module.css';
 
 const initialUserInput = {

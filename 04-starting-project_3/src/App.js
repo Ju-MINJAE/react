@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import Header from './components/Header/Header';
 import ResultsTable from './components/ResultsTable/ResultsTable';
 import UserInput from './components/UserInput/UserInput';
@@ -33,9 +34,7 @@ function App() {
   return (
     <div>
       <Header />
-
       <UserInput onCalculate={calculateHandler} />
-
       {!userInput && (
         <p style={{ textAlign: 'center' }}>No investment calculated yet.</p>
       )}

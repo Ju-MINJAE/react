@@ -1,26 +1,45 @@
-function UserInput() {
-  const subminHandler = (event) => {
+import { useState } from 'react';
+import classes from './UserInput.module.css';
+
+const initialUserInput = {
+  'current-savings': 10000,
+  'yearly-contribution': 1200,
+  'expected-return': 7,
+  duration: 10,
+};
+
+const UserInput = (props) => {
+  const [userInput, setUserInput] = useState(initialUserInput);
+
+  const submitHandler = (event) => {
     event.preventDefault();
-    console.log('SUBMIT');
+
+    props.onCalculate(userInput);
   };
 
   const resetHandler = () => {
-    console.log('RESET');
+    setUserInput(initialUserInput);
   };
 
   const inputChangeHandler = (input, value) => {
-    console.log(input, value);
+    setUserInput((prevInput) => {
+      return {
+        ...prevInput,
+        [input]: +value,
+      };
+    });
   };
 
   return (
-    <form onSubmit={subminHandler} className='form'>
-      <div className='input-group'>
+    <form onSubmit={submitHandler} className={classes.form}>
+      <div className={classes['input-group']}>
         <p>
           <label htmlFor='current-savings'>Current Savings ($)</label>
           <input
             onChange={(event) =>
               inputChangeHandler('current-savings', event.target.value)
             }
+            value={userInput['current-savings']}
             type='number'
             id='current-savings'
           />
@@ -31,12 +50,13 @@ function UserInput() {
             onChange={(event) =>
               inputChangeHandler('yearly-contribution', event.target.value)
             }
+            value={userInput['yearly-contribution']}
             type='number'
             id='yearly-contribution'
           />
         </p>
       </div>
-      <div className='input-group'>
+      <div className={classes['input-group']}>
         <p>
           <label htmlFor='expected-return'>
             Expected Interest (%, per year)
@@ -45,6 +65,7 @@ function UserInput() {
             onChange={(event) =>
               inputChangeHandler('expected-return', event.target.value)
             }
+            value={userInput['expected-return']}
             type='number'
             id='expected-return'
           />
@@ -55,21 +76,26 @@ function UserInput() {
             onChange={(event) =>
               inputChangeHandler('duration', event.target.value)
             }
+            value={userInput['duration']}
             type='number'
             id='duration'
           />
         </p>
       </div>
-      <p className='actions'>
-        <button onClick={resetHandler} type='reset' className='buttonAlt'>
+      <p className={classes.actions}>
+        <button
+          onClick={resetHandler}
+          type='reset'
+          className={classes.buttonAlt}
+        >
           Reset
         </button>
-        <button type='submit' className='button'>
+        <button type='submit' className={classes.button}>
           Calculate
         </button>
       </p>
     </form>
   );
-}
+};
 
 export default UserInput;

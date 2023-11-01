@@ -1,0 +1,19 @@
+import { Link, useParams } from 'react-router-dom';
+
+function ProductDetailPage() {
+  const params = useParams();
+
+  return (
+    <>
+      <h1>Product Detail Page</h1>
+      <p>{params.ProductId}</p>
+      <p>
+        <Link to='..' relative='path'>
+          Back
+        </Link>
+      </p>
+    </>
+  );
+}
+
+export default ProductDetailPage;

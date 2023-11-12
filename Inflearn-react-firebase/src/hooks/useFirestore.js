@@ -1,4 +1,4 @@
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc } from 'firebase/firestore';
 import { useReducer } from 'react';
 import { appFireStore, timestamp } from '../firebase/confing';
 
@@ -27,6 +27,13 @@ const storeReducer = (state, action) => {
         success: false,
         error: action.payload,
       };
+    case 'deleteDoc':
+      return {
+        isPending: false,
+        document: action.payload,
+        success: true,
+        error: null,
+      };
     default:
       return state;
   }
@@ -46,7 +53,6 @@ const useFirestore = (transaction) => {
     try {
       const createdTime = timestamp.fromDate(new Date());
       const docRef = await addDoc(colRef, { ...doc, createdTime });
-      console.log(docRef);
       dispatch({ type: 'addDoc', payload: docRef });
     } catch (error) {
       dispatch({ type: 'error', payload: error.message });
@@ -54,7 +60,16 @@ const useFirestore = (transaction) => {
   };
 
   // 컬랙션에서 문서를 제거
-  const deleteDocument = (id) => {};
+  const deleteDocument = async (id) => {
+    dispatch({ type: 'isPending' });
+
+    try {
+      const docRef = await deleteDoc(doc(colRef, id));
+      dispatch({ type: 'deleteDoc', payload: docRef });
+    } catch (error) {
+      dispatch({ type: 'error', payload: error.message });
+    }
+  };
 
   return { addDocument, deleteDocument, response };
 };

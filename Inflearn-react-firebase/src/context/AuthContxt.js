@@ -2,6 +2,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { createContext, useEffect, useReducer } from 'react';
 import { appAuth } from '../firebase/confing';
 
+import ItemList from '../pages/home/ItemList';
+
 const AuthContext = createContext();
 
 const authReducer = (state, action) => {

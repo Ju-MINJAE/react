@@ -3,11 +3,15 @@ import useAuthContext from '../../hooks/useAuthContext';
 
 import ItemList from './ItemList';
 import styles from './Home.module.css';
-import useCollection from '../../hooks/ useCollection';
+import useCollection from '../../hooks/useCollection';
 
 const Home = () => {
   const { user } = useAuthContext();
-  const { documents, error } = useCollection('Sharemarket');
+  const { documents, error } = useCollection('Sharemarket', [
+    'uid',
+    '==',
+    user.uid,
+  ]);
 
   return (
     <main className={styles.container}>
@@ -15,9 +19,9 @@ const Home = () => {
         <ItemForm uid={user.uid}></ItemForm>
       </aside>
       <ul className={styles.content_list}>
-        <h1>Item list</h1>
+        <h1>My Item list</h1>
         {error && <strong>{error}</strong>}
-        {documents && <ItemList items={documents} />}
+        {documents && <ItemList items={documents}></ItemList>}
       </ul>
     </main>
   );

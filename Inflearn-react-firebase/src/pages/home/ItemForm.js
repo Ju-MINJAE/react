@@ -32,9 +32,10 @@ const ItemForm = ({ uid }) => {
     <>
       <form onSubmit={handleSubmit}>
         <fieldset>
-          <legend>상품 </legend>
-          <label htmlFor='tit'>이름 : </label>
+          <legend>상품 등록</legend>
+          <label htmlFor='tit'>제목 : </label>
           <input
+            placeholder='제목'
             id='tit'
             type='text'
             value={title}
@@ -44,6 +45,7 @@ const ItemForm = ({ uid }) => {
 
           <label htmlFor='tit'>설명 : </label>
           <textarea
+            placeholder='대여하는 사람을 위해 자세히 적어주세요.'
             id='txt'
             type='text'
             value={description}

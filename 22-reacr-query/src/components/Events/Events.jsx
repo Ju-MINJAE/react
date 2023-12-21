@@ -10,11 +10,8 @@ export default function Events() {
     <>
       <Outlet />
       <Header>
-        <Link to='/events/new' className='button'>
+        <Link to="/events/new" className="button">
           New Event
-        </Link>
-        <Link to='/events/login' className='button'>
-          Login
         </Link>
       </Header>
       <main>

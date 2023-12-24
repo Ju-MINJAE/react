@@ -3,8 +3,9 @@ import { useMutation } from '@tanstack/react-query';
 
 import Modal from '../UI/Modal.jsx';
 import EventForm from './EventForm.jsx';
-import { createNewEvent, queryClient } from '../../util/http.js';
+import { createNewEvent } from '../../util/http.js';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
+import { queryClient } from '../../util/http.js';
 
 export default function NewEvent() {
   const navigate = useNavigate();
@@ -24,13 +25,13 @@ export default function NewEvent() {
   return (
     <Modal onClose={() => navigate('../')}>
       <EventForm onSubmit={handleSubmit}>
-        {isPending && 'Subnitting...'}
+        {isPending && 'Submitting...'}
         {!isPending && (
           <>
-            <Link to='../' className='button-text'>
+            <Link to="../" className="button-text">
               Cancel
             </Link>
-            <button type='submit' className='button'>
+            <button type="submit" className="button">
               Create
             </button>
           </>
@@ -38,7 +39,7 @@ export default function NewEvent() {
       </EventForm>
       {isError && (
         <ErrorBlock
-          title='Failed to create event.'
+          title="Failed to create event"
           message={
             error.info?.message ||
             'Failed to create event. Please check your inputs and try again later.'

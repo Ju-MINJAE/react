@@ -22,7 +22,7 @@ export default function NewEventsSection() {
   if (isError) {
     content = (
       <ErrorBlock
-        title='An error occurred'
+        title="An error occurred"
         message={error.info?.message || 'Failed to fetch events.'}
       />
     );
@@ -30,7 +30,7 @@ export default function NewEventsSection() {
 
   if (data) {
     content = (
-      <ul className='events-list'>
+      <ul className="events-list">
         {data.map((event) => (
           <li key={event.id}>
             <EventItem event={event} />
@@ -41,7 +41,7 @@ export default function NewEventsSection() {
   }
 
   return (
-    <section className='content-section' id='new-events-section'>
+    <section className="content-section" id="new-events-section">
       <header>
         <h2>Recently added events</h2>
       </header>

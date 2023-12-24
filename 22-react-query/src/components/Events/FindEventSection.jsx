@@ -13,7 +13,7 @@ export default function FindEventSection() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['events', { searchTerm: searchTerm }],
     queryFn: ({ signal, queryKey }) => fetchEvents({ signal, ...queryKey[1] }),
-    enabled: searchTerm !== undefined,
+    enabled: searchTerm !== undefined
   });
 
   function handleSubmit(event) {
@@ -30,7 +30,7 @@ export default function FindEventSection() {
   if (isError) {
     content = (
       <ErrorBlock
-        title='An error occurred'
+        title="An error occurred"
         message={error.info?.message || 'Failed to fetch events.'}
       />
     );
@@ -38,7 +38,7 @@ export default function FindEventSection() {
 
   if (data) {
     content = (
-      <ul className='events-list'>
+      <ul className="events-list">
         {data.map((event) => (
           <li key={event.id}>
             <EventItem event={event} />
@@ -49,13 +49,13 @@ export default function FindEventSection() {
   }
 
   return (
-    <section className='content-section' id='all-events-section'>
+    <section className="content-section" id="all-events-section">
       <header>
         <h2>Find your next event!</h2>
-        <form onSubmit={handleSubmit} id='search-form'>
+        <form onSubmit={handleSubmit} id="search-form">
           <input
-            type='search'
-            placeholder='Search events'
+            type="search"
+            placeholder="Search events"
             ref={searchElement}
           />
           <button>Search</button>

@@ -11,7 +11,6 @@
     function MinutesToHours() {
       const [amount, setAmount] = React.useState('');
       const [inverted, setInverted] = React.useState(false);
-      const [] = React.useState();
 
       const onChange = (event) => {
         setAmount(event.target.value);
@@ -24,8 +23,8 @@
       };
       return (
         <div>
+          <h3 className='hi'>Time Coverter</h3>
           <div>
-            <h3 className='hi'>Time Coverter</h3>
             <label htmlFor='minutes'>Minutes</label>
             <input
               value={inverted ? amount * 60 : amount}
@@ -57,7 +56,51 @@
     }
 
     function KmToMiles() {
-      return <h3>KM 2 M</h3>;
+      const [amount, setAmount] = React.useState('');
+      const [inverted, setInverted] = React.useState(false);
+
+      const distanceChange = (event) => {
+        setAmount(event.target.value);
+      };
+
+      const reset = () => setAmount('');
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+
+      return (
+        <div>
+          <h3>Distance Converter</h3>
+          <div>
+            <label htmlFor='km'>KM</label>
+            <input
+              value={inverted ? Math.round(amount * 1.6) : amount}
+              id='km'
+              placeholder='KM'
+              type='number'
+              onChange={distanceChange}
+              disabled={inverted}
+            />
+          </div>
+
+          <div>
+            <label htmlFor='mile'>Mile</label>
+            <input
+              value={inverted ? amount : Math.round(amount / 1.6)}
+              id='miles'
+              placeholder='Mile'
+              type='number'
+              onChange={distanceChange}
+              disabled={!inverted}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>
+            {inverted ? 'Turn back' : 'Invert'}
+          </button>
+        </div>
+      );
     }
 
     function App() {

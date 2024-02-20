@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react';
+
+function App() {
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
+  const [usdAmount, setUsdAmount] = useState('');
+  const [selectedCoin, setSelectedCoin] = useState('');
+  const [convertedAmount, setConvertedAmount] = useState('');
+
+  useEffect(() => {
+    fetch('https://api.coinpaprika.com/v1/tickers')
+      .then((response) => response.json())
+      .then((json) => {
+        setCoins(json);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleInputChange = (event) => {
+    setUsdAmount(event.target.value);
+  };
+
+  const handleSelectChange = (event) => {
+    setSelectedCoin(event.target.value);
+  };
+
+  const convertToBTC = () => {
+    if (usdAmount && selectedCoin) {
+      const coin = coins.find((coin) => coin.symbol === selectedCoin);
+      if (coin && coin.quotes && coin.quotes.USD && coin.quotes.USD.price) {
+        const usdPrice = parseFloat(coin.quotes.USD.price);
+        const btcAmount = parseFloat(usdAmount) / usdPrice;
+        setConvertedAmount(btcAmount.toFixed(8));
+      }
+    }
+  };
+
+  useEffect(() => {
+    convertToBTC();
+  }, [usdAmount, selectedCoin]);
+
+  return (
+    <div>
+      <h1>The Coins! ({coins.length})</h1>
+      <div>
+        <p>Write Your USD</p>
+        <input
+          type='number'
+          value={usdAmount}
+          onChange={handleInputChange}
+          placeholder='Enter USD amount'
+        />
+      </div>
+      <hr />
+      {loading ? (
+        <strong>Loading...</strong>
+      ) : (
+        <div>
+          <select value={selectedCoin} onChange={handleSelectChange}>
+            <option value=''>Select a coin</option>
+            {coins.map((coin) => (
+              <option key={coin.id} value={coin.symbol}>
+                {coin.name} ({coin.symbol}): ${coin.quotes.USD.price}
+              </option>
+            ))}
+          </select>
+          {convertedAmount && (
+            <p>
+              {usdAmount} USD is {convertedAmount} BTC
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;

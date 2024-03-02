@@ -79,7 +79,7 @@ const TextArea = styled.textarea`
   background-color: black;
   width: 100%;
   resize: none;
-  &::placeholder: {
+  &::placeholder {
     font-size: 16px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',

@@ -65,11 +65,23 @@ const NameChangeBtn = styled.button`
   cursor: pointer;
 `;
 
+const Btn = styled.button`
+  background-color: tomato;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+`;
+
 export default function Profile() {
   const user = auth.currentUser;
 
   const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<ITweet[]>([]);
+  const [isEditingNickname, setIsEditingNickname] = useState(false);
+  const [newNickname, setNewNickname] = useState(user?.displayName || '');
 
   const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -113,8 +125,38 @@ export default function Profile() {
     fetchTweets();
   }, []);
 
-  const changeNickname = () => {
-    // To Do : 버튼 클릭시 닉네임 변경
+  const startEditingNickname = () => {
+    setIsEditingNickname(true);
+  };
+
+  const cancelEditingNickname = () => {
+    setIsEditingNickname(false);
+    setNewNickname(user?.displayName || '');
+  };
+
+  const saveNewNickname = async () => {
+    if (!user) {
+      console.error('User not authenticated!');
+      return;
+    }
+
+    if (!newNickname.trim()) {
+      alert('Nickname cannot be empty!');
+      return;
+    }
+
+    try {
+      await updateProfile(user, {
+        displayName: newNickname.trim(),
+      });
+      setIsEditingNickname(false);
+      alert('Nickname changed successfully!');
+    } catch (error) {
+      console.error('Error changing nickname:', error);
+      alert(
+        'An error occurred while changing nickname. Please try again later.'
+      );
+    }
   };
 
   return (
@@ -139,8 +181,26 @@ export default function Profile() {
         type='file'
         accept='image/*'
       />
-      <Name>{user?.displayName ? user.displayName : 'Anonymous'}</Name>
-      <NameChangeBtn onClick={changeNickname}>Change Nickname</NameChangeBtn>
+      {isEditingNickname ? (
+        <>
+          <input
+            type='text'
+            value={newNickname}
+            onChange={(e) => setNewNickname(e.target.value)}
+          />
+          <Btn onClick={saveNewNickname}>Save</Btn>
+          <Btn onClick={cancelEditingNickname}>Cancel</Btn>
+        </>
+      ) : (
+        <>
+          <Name onClick={startEditingNickname}>
+            {user?.displayName ? user.displayName : 'Anonymous'}
+          </Name>
+          <NameChangeBtn onClick={startEditingNickname}>
+            Change Nickname
+          </NameChangeBtn>
+        </>
+      )}
       <Tweets>
         {tweets.map((tweet) => (
           <Tweet key={tweet.id} {...tweet} />
